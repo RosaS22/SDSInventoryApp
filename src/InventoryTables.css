@@ -1,0 +1,45 @@
+/* src/InventoryTables.css */
+.tables-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between tables */
+  }
+  
+  .tables-container > div {
+    flex: 1; /* Allow tables to take up equal space */
+    min-width: 250px; /* Optional: Ensure each table has a minimum width */
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%; /* Make the table take full width of its container */
+  }
+  
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+
+  button {
+    background-color: #865A26; /* SDS Spoon color */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 20px 0;
+    width: 100%
+  }
+
+  body {
+    background-color: #F1E7CF; /* SDS Cream Color*/
+    }
+
+    .note-section {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 20px;
+    }
