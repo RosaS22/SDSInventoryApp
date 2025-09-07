@@ -1,45 +1,90 @@
-/* src/InventoryTables.css */
+/* Grid layout for tables */
 .tables-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* Space between tables */
-  }
-  
-  .tables-container > div {
-    flex: 1; /* Allow tables to take up equal space */
-    min-width: 250px; /* Optional: Ensure each table has a minimum width */
-  }
-  
-  table {
-    border-collapse: collapse;
-    width: 100%; /* Make the table take full width of its container */
-  }
-  
-  th, td {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: left;
-  }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px; /* Space between tables */
+  margin-top: 20px;
+}
 
-  button {
-    background-color: #865A26; /* SDS Spoon color */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 20px 0;
-    width: 100%
-  }
+/* Each table container */
+.tables-container > div {
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
 
-  body {
-    background-color: #F1E7CF; /* SDS Cream Color*/
-    }
+/* Table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+}
 
-    .note-section {
-      margin-bottom: 20px;
-      display: flex;
-      gap: 20px;
-    }
+th {
+  background-color: #E8D8B5; /* Slightly darker cream for headers */
+  font-weight: bold;
+}
+
+th,
+td {
+  border: 1px solid #333;
+  padding: 8px;
+  text-align: left;
+}
+
+input[type="text"],
+input[type="date"] {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Section headings */
+.tables-container h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Note section */
+.note-section {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.note-section label {
+  font-weight: bold;
+}
+
+/* Submit button */
+button {
+  background-color: #865A26; /* SDS Spoon color */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  font-size: 16px;
+  margin: 20px 0;
+  width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #6d451c; /* Darker spoon brown on hover */
+}
+
+/* Background */
+body {
+  background-color: #F1E7CF; /* SDS Cream Color */
+  font-family: Arial, sans-serif;
+}
