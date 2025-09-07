@@ -1,4 +1,4 @@
-exports.handler = async function (event, context) {
+export async function handler (event, context) {
     const data = JSON.parse(event.body); // Parse the incoming data
     
     // You can process the data here and store it or return a response
@@ -8,5 +8,5 @@ exports.handler = async function (event, context) {
       statusCode: 200,
       body: JSON.stringify({ message: "Data saved successfully!" }),
     };
-  };
+  }
   

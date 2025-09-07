@@ -1,12 +1,10 @@
-// src/InventoryTables.js
 import React, { useState } from 'react';
-import './InventoryTables.css'; //Import the CSS file
-
+import './InventoryTables.css'; // Import the CSS file
 
 const InventoryTables = () => {
   // State to store inventory data
   const [seasonings, setSeasonings] = useState([
-    { name: 'Alvi\'s Incredible', jarQty: '', bulkQty: '', refillQty:  '' },
+    { name: 'Alvi\'s Incredible', jarQty: '', bulkQty: '', refillQty: '' },
     { name: 'Low Salt Alvi\'s Incredible', jarQty: '', bulkQty: '', refillQty: '' },
     { name: 'Alvi\'s Inferno', jarQty: '', bulkQty: '', refillQty: '' },
     { name: 'Cajun', jarQty: '', bulkQty: '', refillQty: '' },
@@ -30,7 +28,7 @@ const InventoryTables = () => {
 
   const [sweetenings, setSweetenings] = useState([
     { name: 'Vanilla Bean', jarQty: '', bulkQty: '' },
-    { name: 'Salted Caramel', jarQty: '', bulkQty:''},
+    { name: 'Salted Caramel', jarQty: '' },
     { name: 'Brown Sugar-Cinnamon', jarQty: '', bulkQty: '' },
     { name: 'Chocolate', jarQty: '', bulkQty: '' },
     { name: 'Strawberry', jarQty: '', bulkQty: '' },
@@ -43,15 +41,15 @@ const InventoryTables = () => {
   ]);
 
   const [miscItems, setMiscItems] = useState([
-    { name: 'CookBooks', Qty: '',  },
-    { name: 'Spice Spinners', Qty: '',  },
+    { name: 'CookBooks', Qty: '' },
+    { name: 'Spice Spinners', Qty: '' },
     // Add more miscellaneous items as needed
   ]);
 
   const [samplers, setSamplers] = useState([
     { name: 'Seasoning Sampler', Qty: '' },
-    { name: 'Sweet Sampler', Qty: ''},
-    { name: 'Sugar-Free Sweet Sampler', Qty: ''},
+    { name: 'Sweet Sampler', Qty: '' },
+    { name: 'Sugar-Free Sweet Sampler', Qty: '' },
   ]);
 
   // State for date and notes
@@ -60,28 +58,25 @@ const InventoryTables = () => {
 
   // Handle input change
   const handleInputChange = (e, table, index, field) => {
-    const {value} = e.target;
-    const updatedTable = [...table];
-    updatedTable[index][field] = value;
-    return updatedTable;
+    const value = e.target.value;
+    const updateTable = [...table];
+    updateTable[index][field] = value;
+    return updateTable;
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const recordData = { seasonings, sweetenings, miscItems, samplers, date, note };
-
-    try {
-      const response = await fetch('/.netlify/functions/saveInventory', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(recordData),
-      });
-      const result = await response.json();
-      console.log(result.message); // Success message
-    } catch (error) {
-      console.error('Error saving data:', error);
-    }
+    // Save logic for record keeping
+    const recordData = {
+      seasonings,
+      sweetenings,
+      miscItems,
+      samplers,
+      date,
+      note,
+    };
+    console.log('Saving data:', recordData);
   };
 
   return (
@@ -103,148 +98,157 @@ const InventoryTables = () => {
       {/* Seasonings Table */}
       <div className="tables-container">
         <div>
-      <h2>Seasonings</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Jar Qty</th>
-            <th>Bulk Qty</th>
-            <th>Refills</th>
-          </tr>
-        </thead>
-        <tbody>
-          {seasonings.map((item, index) => (
-            <tr key={index}>
-              <td>{item.name}</td>
-              <td>
-                <input
-                  type="text"
-                  value={item.jarQty}
-                  onChange={(e) => setSeasonings(handleInputChange(e, seasonings, index, 'jarQty'))}
-                  style={{ width: '50px', padding: '5px', margin: '5px' }}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={item.bulkQty}
-                  onChange={(e) => setSeasonings(handleInputChange(e, seasonings, index, 'bulkQty'))}
-                  style={{ width: '50px', padding: '5px', margin: '5px' }}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={item.refillQty}
-                  onChange={(e) => setSeasonings(handleInputChange(e, seasonings, index, 'refillQty'))}
-                  style={{ width: '50px', padding: '5px', margin: '5px' }}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+          <h2>Seasonings</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Jar Qty</th>
+                <th>Bulk Qty</th>
+                <th>Refills</th>
+              </tr>
+            </thead>
+            <tbody>
+              {seasonings.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.name}</td>
+                  <td>
+                    <input
+                      type="text"
+                      value={item.jarQty}
+                      onChange={(e) => setSeasonings(handleInputChange(e, seasonings, index, 'jarQty'))}
+                      style={{ width: '50px', padding: '5px', margin: '5px' }}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={item.bulkQty}
+                      onChange={(e) => setSeasonings(handleInputChange(e, seasonings, index, 'bulkQty'))}
+                      style={{ width: '50px', padding: '5px', margin: '5px' }}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={item.refillQty}
+                      onChange={(e) => setSeasonings(handleInputChange(e, seasonings, index, 'refillQty'))}
+                      style={{ width: '50px', padding: '5px', margin: '5px' }}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Sweetenings Table */}
+        <div>
+          <h2>Sweetenings</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Jar Qty</th>
+                <th>Bulk Qty</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sweetenings.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.name}</td>
+                  <td>
+                    <input
+                      type="text"
+                      value={item.jarQty}
+                      onChange={(e) => setSweetenings(handleInputChange(e, sweetenings, index, 'jarQty'))}
+                      style={{ width: '50px', padding: '5px', margin: '5px' }}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={item.bulkQty}
+                      onChange={(e) => setSweetenings(handleInputChange(e, sweetenings, index, 'bulkQty'))}
+                      style={{ width: '50px', padding: '5px', margin: '5px' }}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Miscellaneous Items Table */}
+        <div>
+          <h2>Miscellaneous Items</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Jar Qty</th>
+                <th>Bulk Qty</th>
+              </tr>
+            </thead>
+            <tbody>
+              {miscItems.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.name}</td>
+                  <td>
+                    <input
+                      type="text"
+                      value={item.jarQty}
+                      onChange={(e) => setMiscItems(handleInputChange(e, miscItems, index, 'jarQty'))}
+                      style={{ width: '50px', padding: '5px', margin: '5px' }}
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      value={item.bulkQty}
+                      onChange={(e) => setMiscItems(handleInputChange(e, miscItems, index, 'bulkQty'))}
+                      style={{ width: '50px', padding: '5px', margin: '5px' }}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Samplers Table */}
+        <div>
+          <h2>Samplers</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Qty</th>
+              </tr>
+            </thead>
+            <tbody>
+              {samplers.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.name}</td>
+                  <td>
+                    <input
+                      type="text"
+                      value={item.Qty}
+                      onChange={(e) => setSamplers(handleInputChange(e, samplers, index, 'Qty'))}
+                      style={{ width: '50px', padding: '5px', margin: '5px' }}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* Sweetenings Table */}
-      <div>
-      <h2>Sweetenings</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Jar Qty</th>
-            <th>Bulk Qty</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sweetenings.map((item, index) => (
-            <tr key={index}>
-              <td>{item.name}</td>
-              <td>
-                <input
-                  type="text"
-                  value={item.jarQty}
-                  onChange={(e) => setSweetenings(handleInputChange(e, sweetenings, index, 'jarQty'))}
-                  style={{ width: '50px', padding: '5px', margin: '5px' }}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={item.bulkQty}
-                  onChange={(e) => setSweetenings(handleInputChange(e, sweetenings, index, 'bulkQty'))}
-                  style={{ width: '50px', padding: '5px', margin: '5px' }}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      </div>
-
-      {/* Miscellaneous Items Table */}
-      <div>
-      <h2>Miscellaneous Items</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Qty</th>
-          </tr>
-        </thead>
-        <tbody>
-          {miscItems.map((item, index) => (
-            <tr key={index}>
-              <td>{item.name}</td>
-              <td>
-                <input
-                  type="text"
-                  value={item.qty}
-                  onChange={(e) => setMiscItems(handleInputChange(e, miscItems, index, 'qty'))}
-                  style={{ width: '50px', padding: '5px', margin: '5px' }}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      </div>
-
-      {/* Samplers Table */}
-      <div>
-      <h2>Samplers</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Qty</th>
-          </tr>
-        </thead>
-        <tbody>
-          {samplers.map((sampler, index) => (
-            <tr key={index}>
-              <td>{sampler.name}</td>
-              <td>
-                <input
-                  type="text"
-                  value={sampler.qty}
-                  onChange={(e) => setSamplers(handleInputChange(e, samplers, index, 'qty'))}
-                  style={{ width: '50px', padding: '5px', margin: '5px' }}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      </div>
       {/* Submit Button */}
-    </div>
-    <div id="button"> 
-{/* id to customize button */}
-      <button onClick={handleSubmit}>Submit</button>
-    </div>
+      <div id="button">
+        <button onClick={handleSubmit}>Submit Data</button>
+      </div>
     </div>
   );
 };
