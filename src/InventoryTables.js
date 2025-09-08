@@ -257,12 +257,12 @@ const InventoryTables = () => {
 
       {/* Saved records display */}
        <div className="saved-records">
-        {records.length === 0 ? <p>No records yet.</p> :
+        {Array.isArray(records) && records.length > 0 ? (
           records.map((rec, i) => (
             <div key={i} className="record-card">
               <h3>Record #{i + 1}</h3>
-              <div><strong>Date:</strong> {rec.date}</div>
-              <div><strong>Note:</strong> {rec.note}</div>
+              <div><strong>Date:</strong> {rec.date || '—'}</div>
+              <div><strong>Note:</strong> {rec.note || '—'}</div>
 
               {/* Seasonings */}
                <div>
