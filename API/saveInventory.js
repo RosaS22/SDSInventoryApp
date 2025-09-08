@@ -1,40 +1,34 @@
-// api/saveInventory.js
 import { MongoClient } from 'mongodb';
 
-let cachedClient = null;
-
-async function connectToDatabase(uri) {
-if (cachedClient) return cachedClient;
-const client = new MongoClient(uri);
-await client.connect();
-cachedClient = client;
-return client;
-}
+const uri = process.env.MONGO_URI; // Add in Vercel env variables
+let client;
 
 export default async function handler(req, res) {
-const client = await connectToDatabase(process.env.MONGO_URI);
-const db = client.db('inventoryDB');
-const collection = db.collection('records');
+  if (!client) {
+    client = new MongoClient(uri);
+    await client.connect();
+  }
+  const db = client.db('inventoryDB');
+  const collection = db.collection('records');
 
-if (req.method === 'POST') {
+  if (req.method === 'POST') {
+    const data = req.body;
     try {
-      const record = req.body;
-      await collection.insertOne(record);
-      return res.status(200).json({ message: 'Saved to MongoDB!', data: record });
+      await collection.insertOne(data);
+      return res.status(200).json({ message: 'Record saved successfully!' });
     } catch (err) {
-      console.error(err);
       return res.status(500).json({ error: 'Failed to save record' });
     }
-} else if (req.method === 'GET') {
+  }
+
+  if (req.method === 'GET') {
     try {
-    const records = await collection.find({}).toArray();
-    return res.status(200).json(records);
+      const records = await collection.find({}).toArray();
+      return res.status(200).json(records);
     } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: 'Failed to fetch records' });
+      return res.status(500).json({ error: 'Failed to fetch records' });
     }
-} else {
-    res.setHeader('Allow', ['POST', 'GET']);
-    return res.status(405).end(`Method ${req.method} Not Allowed`);
-}
+  }
+
+  res.status(405).json({ error: 'Method not allowed' });
 }
