@@ -265,7 +265,7 @@ const InventoryTables = () => {
               <div><strong>Note:</strong> {rec.note}</div>
 
               {/* Seasonings */}
-               <div>
+              <div>
                 <strong>Seasonings:</strong>
                 <ul>
                   {rec.seasonings.map((item, idx) => (
@@ -275,7 +275,7 @@ const InventoryTables = () => {
               </div>
               
               {/* Sweetenings */}
-               <div>
+            <div>
                 <strong>Sweetenings:</strong>
                 <ul>
                   {rec.sweetenings.map((item, idx) => (
