@@ -248,50 +248,50 @@ const InventoryTables = () => {
 
       {/* Saved records display */}
       <div className="saved-records">
-        {records.length === 0 ? (
-          <p>No records yet.</p>
-        ) : (
-          records.map((rec, i) => (
-            <div key={i} className="record-card">
-              <h3>Record #{i + 1}</h3>
-              <div className="record-section"><strong>Date:</strong> {rec.date}</div>
-              <div className="record-section"><strong>Note:</strong> {rec.note}</div>
-              <div className="record-section">
-                <strong>Seasonings:</strong>
-                <ul>
-                  {rec.seasonings.map((item, idx) => (
-                    <li key={idx}>{item.name} - Jar: {item.jarQty}, Bulk: {item.bulkQty}, Refills: {item.refillQty}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="record-section">
-                <strong>Sweetenings:</strong>
-                <ul>
-                  {rec.sweetenings.map((item, idx) => (
-                    <li key={idx}>{item.name} - Jar: {item.jarQty}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="record-section">
-                <strong>Misc Items:</strong>
-                <ul>
-                  {rec.miscItems.map((item, idx) => (
-                    <li key={idx}>{item.name} - Qty: {item.Qty}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="record-section">
-                <strong>Samplers:</strong>
-                <ul>
-                  {rec.samplers.map((item, idx) => (
-                    <li key={idx}>{item.name} - Qty: {item.Qty}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))
-        )}
+  {Array.isArray(records) && records.length > 0 ? (
+    records.map((rec, i) => (
+      <div key={i} className="record-card">
+        <h3>Record #{i + 1}</h3>
+        <div className="record-section"><strong>Date:</strong> {rec.date}</div>
+        <div className="record-section"><strong>Note:</strong> {rec.note}</div>
+        <div className="record-section">
+          <strong>Seasonings:</strong>
+          <ul>
+            {rec.seasonings.map((item, idx) => (
+              <li key={idx}>{item.name} - Jar: {item.jarQty}, Bulk: {item.bulkQty}, Refills: {item.refillQty}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="record-section">
+          <strong>Sweetenings:</strong>
+          <ul>
+            {rec.sweetenings.map((item, idx) => (
+              <li key={idx}>{item.name} - Jar: {item.jarQty}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="record-section">
+          <strong>Misc Items:</strong>
+          <ul>
+            {rec.miscItems.map((item, idx) => (
+              <li key={idx}>{item.name} - Qty: {item.Qty}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="record-section">
+          <strong>Samplers:</strong>
+          <ul>
+            {rec.samplers.map((item, idx) => (
+              <li key={idx}>{item.name} - Qty: {item.Qty}</li>
+            ))}
+          </ul>
+        </div>
       </div>
+    ))
+  ) : (
+    <p>No records yet.</p>
+  )}
+</div>
     </div>
   );
 };
