@@ -1,22 +1,32 @@
+// pages/api/saveInventory.js
 import { MongoClient } from 'mongodb';
 
-const uri = process.env.MONGO_URI; // Add in Vercel env variables
+const uri = process.env.MONGO_URI || 'mongodb+srv://salcer2284:YOUR_PASSWORD@cluster0.s6xcxrv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+
 let client;
+let clientPromise;
+
+if (!client) {
+  client = new MongoClient(uri);
+  clientPromise = client.connect();
+}
 
 export default async function handler(req, res) {
-  if (!client) {
-    client = new MongoClient(uri);
-    await client.connect();
-  }
-  const db = client.db('inventoryDB');
-  const collection = db.collection('records');
+  await clientPromise; // ensure client is connected
+  const db = client.db('inventoryDB');       // database name
+  const collection = db.collection('records'); // collection name
 
   if (req.method === 'POST') {
-    const data = req.body;
+    let data = req.body;
+
+    // Ensure JSON is parsed
+    if (typeof data === 'string') data = JSON.parse(data);
+
     try {
       await collection.insertOne(data);
       return res.status(200).json({ message: 'Record saved successfully!' });
     } catch (err) {
+      console.error(err);
       return res.status(500).json({ error: 'Failed to save record' });
     }
   }
@@ -26,6 +36,7 @@ export default async function handler(req, res) {
       const records = await collection.find({}).toArray();
       return res.status(200).json(records);
     } catch (err) {
+      console.error(err);
       return res.status(500).json({ error: 'Failed to fetch records' });
     }
   }

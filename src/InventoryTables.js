@@ -73,10 +73,9 @@ const InventoryTables = () => {
   const fetchRecords = async () => {
     try {
       const res = await axios.get('/api/saveInventory');
-      setRecords(Array.isArray(res.data) ? res.data : []); // ✅ ensure array
+      setRecords(res.data);
     } catch (err) {
-      console.error('Error fetching saved records:', err);
-      setRecords([]);
+      console.error('Error fetching records:', err);
     }
   };
 
@@ -95,15 +94,17 @@ const InventoryTables = () => {
   // Submit handler
   const handleSubmit = async () => {
     const record = { date, note, seasonings, sweetenings, miscItems, samplers };
+
     try {
-      await axios.post('/api/saveInventory', record);
-      setSaved(true); 
+      await axios.post('/api/saveInventory', record, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+      setSaved(true);
       setTimeout(() => setSaved(false), 3000);
-      fetchRecords();
-      return true;
+      fetchRecords(); // refresh saved records
     } catch (err) {
-      console.error('Error saving inventory:', err);
-      return false;
+      console.error('Error saving record:', err);
+      alert('Failed to save. Check console for errors.');
     }
   };
 
@@ -255,30 +256,30 @@ const InventoryTables = () => {
       {saved && <p style={{ color: 'green', fontWeight: 'bold', marginTop: '20px' }}>Saved successfully!</p>}
 
       {/* Saved records display */}
-      <div className="saved-records">
-        {Array.isArray(records) && records.length > 0 ? (
+       <div className="saved-records">
+        {records.length === 0 ? <p>No records yet.</p> :
           records.map((rec, i) => (
             <div key={i} className="record-card">
               <h3>Record #{i + 1}</h3>
-              <div><strong>Date:</strong> {rec.date || '—'}</div>
-              <div><strong>Note:</strong> {rec.note || '—'}</div>
+              <div><strong>Date:</strong> {rec.date}</div>
+              <div><strong>Note:</strong> {rec.note}</div>
 
               {/* Seasonings */}
-              <div>
+               <div>
                 <strong>Seasonings:</strong>
                 <ul>
-                  {Array.isArray(rec.seasonings) && rec.seasonings.map((item, idx) => (
-                    <li key={idx}>{item.name} - Jar: {item.jarQty || 0}, Bulk: {item.bulkQty || 0}, Refills: {item.refillQty || 0}</li>
+                  {rec.seasonings.map((item, idx) => (
+                    <li key={idx}>{item.name} - Jar: {item.jarQty}, Bulk: {item.bulkQty}, Refills: {item.refillQty}</li>
                   ))}
                 </ul>
               </div>
-
+              
               {/* Sweetenings */}
-              <div>
+               <div>
                 <strong>Sweetenings:</strong>
                 <ul>
-                  {Array.isArray(rec.sweetenings) && rec.sweetenings.map((item, idx) => (
-                    <li key={idx}>{item.name} - Jar: {item.jarQty || 0}</li>
+                  {rec.sweetenings.map((item, idx) => (
+                    <li key={idx}>{item.name} - Jar: {item.jarQty}</li>
                   ))}
                 </ul>
               </div>
@@ -287,8 +288,8 @@ const InventoryTables = () => {
               <div>
                 <strong>Misc Items:</strong>
                 <ul>
-                  {Array.isArray(rec.miscItems) && rec.miscItems.map((item, idx) => (
-                    <li key={idx}>{item.name} - Qty: {item.Qty || 0}</li>
+                  {rec.miscItems.map((item, idx) => (
+                    <li key={idx}>{item.name} - Qty: {item.Qty}</li>
                   ))}
                 </ul>
               </div>
@@ -297,16 +298,13 @@ const InventoryTables = () => {
               <div>
                 <strong>Samplers:</strong>
                 <ul>
-                  {Array.isArray(rec.samplers) && rec.samplers.map((item, idx) => (
-                    <li key={idx}>{item.name} - Qty: {item.Qty || 0}</li>
+                  {rec.samplers.map((item, idx) => (
+                    <li key={idx}>{item.name} - Qty: {item.Qty}</li>
                   ))}
                 </ul>
               </div>
             </div>
-          ))
-        ) : (
-          <p>No records yet.</p>
-        )}
+          ))}
       </div>
     </div>
   );

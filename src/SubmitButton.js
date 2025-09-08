@@ -1,12 +1,7 @@
 import React from 'react';
 
-const SubmitButton = () => {
-  return (
-    <button type="submit" className="submit-btn">
-      Submit
-    </button>
-  );
-};
+const SubmitButton = ({ handleSubmit }) => (
+  <button onClick={handleSubmit}>Submit</button>
+);
 
 export default SubmitButton;
-
